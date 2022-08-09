@@ -1,0 +1,23 @@
+version: '2'
+
+volumes:
+  nginx-naxsi:
+
+services:
+  nginx-naxsi:
+    image: alessiomangoni13/nginx-naxsi:stable
+    restart: always
+    volumes:
+      - ./config/sites-enabled:/etc/nginx/sites-enabled:ro
+      - /etc/letsencrypt:/cert:ro
+      - ./DH:/etc/ssl/DH:ro
+    ports:
+      - 0.0.0.0:80:80
+      - 0.0.0.0:443:443
+    networks:
+      - reverse-proxy-network
+
+networks:
+  reverse-proxy-network:
+    external:
+      name: proxy-network
